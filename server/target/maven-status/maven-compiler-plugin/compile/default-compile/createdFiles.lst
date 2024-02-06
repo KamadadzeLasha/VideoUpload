@@ -1,0 +1,11 @@
+org/example/server/exception/FileUploadExceptionAdvice.class
+org/example/server/model/VideoConversionRequest.class
+org/example/server/service/FileConversionService.class
+org/example/server/controller/FileConverterController.class
+org/example/server/model/TargetPlatform.class
+org/example/server/model/VideoExtension.class
+org/example/server/service/FileConversionServiceImpl.class
+org/example/server/model/ConvertedFileInfo.class
+org/example/server/Properties/StorageProperties.class
+org/example/server/ServerApplication.class
+org/example/server/message/ResponseMessage.class
