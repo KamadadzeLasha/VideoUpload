@@ -1,0 +1,31 @@
+# Maven specific
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!.mvn/wrapper/maven-wrapper.properties
+
+# IDE files
+.idea/
+*.iml
+*.iws
+*.ipr
+*.iws
+*.classpath
+*.project
+
+# Logs
+logs/
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Compiled Java class files
+*.class
+
+# Compiled Java source
+*.jar
+
+# Dependencies
+/target/
+!.mvn/wrapper/maven-wrapper.jar
