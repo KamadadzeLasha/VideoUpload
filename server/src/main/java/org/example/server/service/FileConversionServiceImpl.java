@@ -46,8 +46,5 @@ public class FileConversionServiceImpl implements FileConversionService {
     return null;
   }
   
-  // private static String (MultipartFile file) {
-    
-  // }
 
 }
