@@ -1,0 +1,9 @@
+# IDE files
+.idea/
+*.iml
+*.iws
+*.ipr
+*.iws
+*.classpath
+*.project
+*.vscode
