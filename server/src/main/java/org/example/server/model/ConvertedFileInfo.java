@@ -3,6 +3,8 @@ package org.example.server.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import org.springframework.core.io.Resource;
+
 /**
  * Represents information about an already converted file.
  */
@@ -22,5 +24,5 @@ public class ConvertedFileInfo {
     /**
      * Additional information about the converted file.
      */
-    private final String fileMetaData;
+//    private final String fileMetaData;
 }

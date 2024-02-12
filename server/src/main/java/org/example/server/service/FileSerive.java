@@ -6,7 +6,7 @@ import org.example.server.model.VideoConversionRequest;
 /**
  * This interface represents a service for handling multimedia file conversion operations.
  */
-public interface FileConversionService {
+public interface FileSerive {
 
     /**
      * Initializes the file conversion service.

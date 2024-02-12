@@ -17,6 +17,3 @@ Thumbs.db
 # Compiled Java source
 *.jar
 
-# Dependencies
-/target/
-!.mvn/wrapper/maven-wrapper.jar

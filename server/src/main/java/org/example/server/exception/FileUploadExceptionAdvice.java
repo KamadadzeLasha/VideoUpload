@@ -14,5 +14,5 @@ public class FileUploadExceptionAdvice {
     public ResponseEntity<ResponseMessage> handleMaxSizeException(MaxUploadSizeExceededException exc) {
         return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage("File too large!"));
     }
-    
+
 }

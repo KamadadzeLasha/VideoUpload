@@ -3,8 +3,8 @@ package org.example.server.model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@Getter
 @AllArgsConstructor
+@Getter
 public enum TargetPlatform {
     FACEBOOK("mp4", 1280, 720),
     INSTAGRAM("mp4", 1080, 1920),
