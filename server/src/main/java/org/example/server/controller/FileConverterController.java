@@ -2,7 +2,7 @@ package org.example.server.controller;
 
 import org.example.server.model.ConvertedFileInfo;
 import org.example.server.model.VideoConversionRequest;
-import org.example.server.service.FileSerive;
+import org.example.server.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,18 +15,18 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "http://localhost:8081")
 public class FileConverterController {
 
-    private final FileSerive fileConversionService;
+    private final FileService fileService;
 
     @Autowired
-    public FileConverterController(FileSerive fileConversionService) {
-        this.fileConversionService = fileConversionService;
+    public FileConverterController(FileService fileService) {
+        this.fileService = fileService;
     }
 
-    @PostMapping()
+    @PostMapping(path = {""})
     public ResponseEntity<ConvertedFileInfo> convertVideo(
             @ModelAttribute VideoConversionRequest conversionRequest
     ) {
-        ConvertedFileInfo fileInfo = fileConversionService.convertFile(
+        ConvertedFileInfo fileInfo = fileService.convertFile(
                 conversionRequest
         );
 

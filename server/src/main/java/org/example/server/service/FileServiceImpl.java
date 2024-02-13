@@ -2,6 +2,7 @@ package org.example.server.service;
 
 import org.example.server.model.ConvertedFileInfo;
 import org.example.server.model.VideoConversionRequest;
+import org.example.server.utils.FFmpegRunner;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,12 +13,10 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Service
-public class FileServiceImpl implements FileSerive {
+public class FileServiceImpl implements FileService {
     private final Path rootLocation = Paths.get("upload-dir");
     private final Path tempLocation = Paths.get("temp-location");
 
@@ -74,6 +73,7 @@ public class FileServiceImpl implements FileSerive {
             }
             Files.deleteIfExists(Paths.get(tempFilePath));
             String fileUrl = rootLocation.resolve(convertedFileName).toUri().toString();
+            FFmpegRunner runner = new FFmpegRunner();
             // Return information about the transcoded file
             return new ConvertedFileInfo(convertedFileName, fileUrl);
         } catch (IOException | InterruptedException e) {
@@ -81,20 +81,11 @@ public class FileServiceImpl implements FileSerive {
         }
     }
 
-    private Process getProcess(String convertedFileName, String tempFilePath) throws IOException {
-        String outputFilePath = rootLocation.resolve(convertedFileName).toString();
-        List<String> commands = new ArrayList<>();
-        String lavfiFilter = "[0:v]scale=iw:2*trunc(iw*16/18),boxblur=luma_radius=min(h\\,w)/20:luma_power=1:chroma_radius=min(cw\\,ch)/20:chroma_power=1[bg];[bg][0:v]overlay=(W-w)/2:(H-h)/2,setsar=1";
-        commands.add("ffmpeg");
-        commands.add("-i");
-        commands.add(tempFilePath);
-        commands.add("-lavfi");
-        commands.add(lavfiFilter);
-        commands.add(outputFilePath);
-
+    private Process getProcess(String inputFile, String tempFilePath) throws IOException {
+        FFmpegRunner runner = new FFmpegRunner();
         // Execute command
         ProcessBuilder processBuilder = new ProcessBuilder();
-        processBuilder.command(commands);
+
         return processBuilder.start();
     }
 

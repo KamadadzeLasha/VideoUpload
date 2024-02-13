@@ -1,7 +1,7 @@
 package org.example.server;
 
 import org.example.server.Properties.StorageProperties;
-import org.example.server.service.FileSerive;
+import org.example.server.service.FileService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,10 +17,10 @@ public class ServerApplication {
     }
 
     @Bean
-    CommandLineRunner init(FileSerive fileSerive) {
+    CommandLineRunner init(FileService fileService) {
         return (args) -> {
-            fileSerive.deleteAll();
-            fileSerive.initialize();
+            fileService.deleteAll();
+            fileService.initialize();
         };
     }
 }
