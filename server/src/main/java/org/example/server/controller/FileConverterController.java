@@ -4,6 +4,7 @@ import org.example.server.model.ConvertedFileInfo;
 import org.example.server.model.VideoConversionRequest;
 import org.example.server.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,7 +24,7 @@ public class FileConverterController {
     }
 
     @PostMapping(path = {""})
-    public ResponseEntity<ConvertedFileInfo> convertVideo(
+    public ResponseEntity<ConvertedFileInfo> convertVideoAndLoad(
             @ModelAttribute VideoConversionRequest conversionRequest
     ) {
         ConvertedFileInfo fileInfo = fileService.convertFile(
@@ -32,6 +33,7 @@ public class FileConverterController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileInfo.getFileName() + "\"")
                 .body(fileInfo);
     }
 }

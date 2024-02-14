@@ -3,17 +3,19 @@ package org.example.server.service;
 import org.example.server.model.ConvertedFileInfo;
 import org.example.server.model.VideoConversionRequest;
 import org.example.server.utils.FFmpegRunner;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 @Service
 public class FileServiceImpl implements FileService {
@@ -57,29 +59,39 @@ public class FileServiceImpl implements FileService {
             String convertedFileName = "Random-" + Objects.requireNonNull(conversionRequest.getMultipartFile().getOriginalFilename());
             Process process = getProcess(convertedFileName, tempFilePath);
 
-            // Handle process output (optional)
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-            }
-
-            // Wait for the process to finish
-            int exitCode = process.waitFor();
-            if (exitCode == 0) {
-                System.out.println("FFMpeg command executed successfully");
-            } else {
-                throw new RuntimeException("Error executing FFMpeg command, exit code: " + exitCode);
-            }
             Files.deleteIfExists(Paths.get(tempFilePath));
             String fileUrl = rootLocation.resolve(convertedFileName).toUri().toString();
-            FFmpegRunner runner = new FFmpegRunner();
+
             // Return information about the transcoded file
             return new ConvertedFileInfo(convertedFileName, fileUrl);
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) {
             return new ConvertedFileInfo("mokda", "mkdaria");
         }
     }
+
+    public Stream<Path> loadAll() {
+        try {
+            return Files.walk(this.rootLocation, 1).filter(path -> !path.equals(this.rootLocation)).map(this.rootLocation::relativize);
+        } catch (IOException e) {
+            throw new RuntimeException("Could not load the files!");
+        }
+    }
+
+    public Resource load(String filename) {
+        try {
+            Path file = rootLocation.resolve(filename);
+            Resource resource = new UrlResource(file.toUri());
+
+            if (resource.exists() || resource.isReadable()) {
+                return resource;
+            } else {
+                throw new RuntimeException("Could not read the file!");
+            }
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Error: " + e.getMessage());
+        }
+    }
+
 
     private Process getProcess(String inputFile, String tempFilePath) throws IOException {
         FFmpegRunner runner = new FFmpegRunner();
@@ -88,6 +100,7 @@ public class FileServiceImpl implements FileService {
 
         return processBuilder.start();
     }
+
 
     private String saveTemporarilyAndGetFilePath(MultipartFile video) throws IOException {
         String tempFilePath = tempLocation.resolve(Objects.requireNonNull(video.getOriginalFilename())).toString();

@@ -7,10 +7,8 @@ public class FFmpegRunner {
 
     public FFmpegRunner() {
         this.commandRunner = new CommandRunner();
-//        String a = Objects.requireNonNull(getClass().getResource("/binaries/ffmpeg")).getFile();
-        String a = "ffmpeg";
-        System.out.println(a);
-        commandRunner.addArgument(a);
+        String pathToFFmpegBinary = Objects.requireNonNull(getClass().getResource("/binaries/ffmpeg")).getFile();
+        commandRunner.addArgument(pathToFFmpegBinary);
     }
 
     public FFmpegRunner addInput(String inputPath) {
@@ -68,6 +66,9 @@ public class FFmpegRunner {
     public FFmpegRunner addFilter(String filter) {
         return handleArguments("-filter", filter);
     }
+    public FFmpegRunner addComplexFilter(String filter) {
+        return handleArguments("-lavfi", filter);
+    }
 
     private FFmpegRunner handleArguments(String... arguments) {
         for (String arg : arguments) {
@@ -78,13 +79,5 @@ public class FFmpegRunner {
 
     public boolean run(boolean logOutput) {
         return commandRunner.run(logOutput);
-    }
-
-    public static void main(String[] args) {
-        FFmpegRunner runner = new FFmpegRunner();
-        runner.addInput("/home/don/Videos/video1.mp4");
-        runner.addOutput("/home/don/Videos/sample.mp4");
-
-        System.out.println(runner.run(true));
     }
 }

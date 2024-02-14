@@ -6,20 +6,19 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum TargetPlatform {
-    FACEBOOK("mp4", 1280, 720),
-    INSTAGRAM("mp4", 1080, 1920),
-    TWITTER("mp4", 1280, 720),
-    LINKEDIN("mp4", 1280, 720),
-    TIKTOK("mp4", 1080, 1920),
-    SNAPCHAT("mp4", 1080, 1920);
+    FACEBOOK("mp4", "1280x720"),
+    INSTAGRAM("mp4", "1080x1920"),
+    TWITTER("mp4", "1280x720"),
+    LINKEDIN("mp4", "1280x720"),
+    TIKTOK("mp4", "1080x1920"),
+    SNAPCHAT("mp4", "1080x 1920");
     // Add more social media platforms as needed
 
     private final String extensionType;
-    private final int videoWidth;
-    private final int videoHeight;
+    private final String videoSize;
 
     @Override
     public String toString() {
-        return "extensionType=" + extensionType + ", videoWidth=" + videoWidth + ", videoHeight=" + videoHeight;
+        return "extensionType=" + extensionType + ", videoSize=" + videoSize ;
     }
 }
