@@ -3,26 +3,21 @@ package org.example.server.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import org.springframework.core.io.Resource;
+import java.net.URI;
 
 /**
  * Represents information about an already converted file.
  */
 @Data
 @AllArgsConstructor
-public class ConvertedFileInfo {
+public class FileInfo {
     /**
      * The name of the converted file.
      */
-    private final String fileName;
+    private String name;
 
     /**
      * The URL of the converted file.
      */
-    private final String fileUrl;
-
-    /**
-     * Additional information about the converted file.
-     */
-//    private final String fileMetaData;
+    private URI fileUrl;
 }
